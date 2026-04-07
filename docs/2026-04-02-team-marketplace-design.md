@@ -67,8 +67,13 @@ GitHub Org: cm-ailab-cc-plugins
 
 ### 3.1 命名規範
 
-- Repo 名稱：`plugin-<動作>-<對象>`（全英文小寫，用 `-` 分隔）
-- 範例：`plugin-query-mongo`、`plugin-review-code`、`plugin-gen-report`
+- **`plugin.json.name`**：canonical ID，格式為 `<動作>-<對象>`（全英文小寫，用 `-` 分隔）
+  - 範例：`query-mongo`、`review-code`、`gen-report`
+- **Repo 名稱**：`plugin-` + `plugin.json.name`
+  - 範例：`plugin-query-mongo`、`plugin-review-code`、`plugin-gen-report`
+- **Claude Code 中的引用**：`<name>@cm-ailab-cc-plugins`
+  - 範例：`query-mongo@cm-ailab-cc-plugins`
+- CI 驗證 repo 名稱必須等於 `plugin-` + `plugin.json.name`
 
 ### 3.2 Plugin 結構
 
@@ -93,16 +98,52 @@ plugin-xxx/
 
 ```json
 {
-  "name": "plugin-query-mongo",
+  "name": "query-mongo",
   "version": "1.0.0",
+  "type": "skill",
   "description": "以自然語言查詢 MongoDB，自動生成並執行 query",
   "keywords": ["mongodb", "query"],
   "author": {
     "name": "Nero",
-    "email": "nero_xu@cmoney.com.tw"
+    "github": "Nero-2307"
   }
 }
 ```
+
+`type` 欄位合法值：
+
+| 值 | 包含內容 | 安全等級 |
+|---|---------|---------|
+| `skill` | 僅 SKILL.md | 低風險（純指令文字） |
+| `agent` | Agent 定義 | 低風險（純指令文字） |
+| `hook` | hooks.json（事件觸發執行命令） | 高風險（可執行程式碼） |
+| `mcp` | MCP Server 設定（長駐服務） | 高風險（可執行程式碼） |
+| `mixed` | 以上任意組合 | 依包含的最高風險等級 |
+
+**安全規則**：專案 `.claude/settings.json` 中的 `enabledPlugins` 只能自動啟用 `skill` 和 `agent` 類型。`hook`、`mcp`、`mixed` 類型的 plugin 需要使用者在 Claude Code 中手動確認才會啟用。
+
+### 3.5 Deprecation 機制
+
+在 marketplace.json 的 plugin entry 中加入 `deprecated` 欄位：
+
+```json
+{
+  "name": "query-mongo",
+  "deprecated": true,
+  "replacement": "query-db"
+}
+```
+
+行為定義：
+
+| 操作 | deprecated plugin 的行為 |
+|------|------------------------|
+| `/mp:search` | 預設隱藏，加 `--all` 才顯示（標記為已棄用） |
+| `/mp:list` | 顯示但標記為已棄用 |
+| 已安裝的 plugin | 繼續運作，但啟動時顯示棄用警告 |
+| 新安裝 | 允許但顯示警告，建議改用 `replacement` |
+
+`replacement` 欄位為可選，指向建議替代的 plugin name。
 
 ### 3.4 分類方式
 
@@ -131,15 +172,17 @@ Claude Code 自動執行
   ├── gh repo create cm-ailab-cc-plugins/plugin-xxx --private
   ├── Scaffold plugin 結構（從 templates/ 產生）
   ├── git push 到 plugin repo
+  ├── git tag v1.0.0 並 push tag
   ├── 在 marketplace repo 建 branch
-  ├── 更新 marketplace.json（加入新 plugin entry）
+  ├── 更新 marketplace.json（加入新 plugin entry，ref 指向 tag）
   └── gh pr create 到 marketplace repo（base: main）
         │
         ▼
 GitHub Actions CI 自動驗證
   ├── 結構驗證（plugin.json 存在、必填欄位、命名規範、semver）
-  ├── 內容驗證（依類型檢查 skill/hook/agent/mcp 格式）
-  ├── Plugin repo 可 clone
+  ├── 內容驗證（依 type 欄位檢查對應格式）
+  ├── 交叉驗證（type 宣告與 repo 實際內容一致）
+  ├── 版本一致性（ref tag = v + plugin.json.version）
   └── 品質警告（description 太短、缺 README、keyword 重複）
         │
         ▼
@@ -158,8 +201,10 @@ Reviewer 人工審核（透過 CODEOWNERS 指定）
 Claude Code
   ├── 讀取目前版本
   ├── 問 bump patch / minor / major
+  ├── 更新 plugin.json version
   ├── 推 code 到 plugin repo
-  ├── 更新 marketplace.json 版本號
+  ├── git tag vX.Y.Z 並 push tag
+  ├── 更新 marketplace.json 的 ref 指向新 tag
   └── 發 PR
         │
         ▼
@@ -196,7 +241,7 @@ CI 驗證 → Reviewer 審核 → 合併
 
 | 斜線命令 | 自然語言觸發範例 | 功能 |
 |---------|----------------|------|
-| `/mp:deprecate <name>` | 「我想淘汰這個 plugin」 | 標記 plugin 為棄用 |
+| `/mp:deprecate <name>` | 「我想淘汰這個 plugin」 | 標記 plugin 為棄用（見 §3.5） |
 | `/mp:setup` | 「幫我設定團隊 marketplace」 | 一鍵 onboarding |
 
 ### 5.3 互動設計原則
@@ -208,27 +253,46 @@ CI 驗證 → Reviewer 審核 → 合併
 
 ## 6. CI 自動化驗證
 
+CI 只做**靜態/結構驗證**，不做 runtime 驗證（不執行命令、不啟動服務）。
+
 ### 6.1 結構驗證（必過，否則 PR 不能合併）
 
 | 檢查項目 | 說明 |
 |---------|------|
 | `plugin.json` 存在 | `.claude-plugin/plugin.json` 必須存在 |
-| 必填欄位完整 | `name`、`version`、`description`、`keywords`（≥2 個） |
+| 必填欄位完整 | `name`、`version`、`type`、`description`、`keywords`（≥2 個）、`author.github` |
 | 命名規範 | repo 名稱符合 `plugin-<動作>-<對象>` 格式 |
 | 版本格式 | semver 格式（`x.y.z`） |
-| Plugin repo 可 clone | 目標 plugin repo 存在且可存取 |
+| `type` 合法 | 值為 `skill`、`agent`、`hook`、`mcp`、`mixed` 之一 |
+| Git tag 存在 | marketplace.json 中 `ref` 指向的 tag 存在於 plugin repo |
 
-### 6.2 內容驗證（按 plugin 類型，必過）
+### 6.2 內容驗證（按 `type` 欄位決定，必過）
 
 | Plugin 類型 | 檢查內容 |
 |------------|---------|
-| Skill | `skills/` 下至少一個 `SKILL.md`，有 frontmatter `description` |
-| Hook | `hooks.json` 格式正確，event type 為合法值 |
-| Agent | `.md` 檔有合法 YAML frontmatter |
-| MCP Server | `command` 欄位存在，指向有效執行檔 |
-| LSP Server | 設定格式正確 |
+| `skill` | `skills/` 下至少一個 `SKILL.md`，有 frontmatter `description` |
+| `hook` | `hooks.json` 格式正確，event type 為合法值 |
+| `agent` | `.md` 檔有合法 YAML frontmatter |
+| `mcp` | MCP 設定中 `command` 欄位存在（不驗證執行檔是否可用） |
+| `mixed` | 依實際包含的類型分別檢查 |
 
-### 6.3 品質檢查（警告，不擋 PR）
+### 6.3 交叉驗證（防止 type 宣告繞過，必過）
+
+`type` 宣告必須與 repo 實際內容一致：
+
+- 若 `type` 不含 `hook` 或 `mixed`，repo 中不得存在 `hooks.json`
+- 若 `type` 不含 `mcp` 或 `mixed`，repo 中不得存在 MCP 設定
+- 若 `type` 為 `mixed`，必須包含兩種以上類型的實際內容
+
+### 6.4 版本一致性驗證（必過）
+
+- CI 以 marketplace.json 中 `ref` 指向的 **tag commit** 為準，checkout 該 commit 後讀取 `.claude-plugin/plugin.json.version`
+- tag 名稱必須等於 `v` + 該 commit 中的 `plugin.json.version`
+  - 例如：tag commit 內 `plugin.json.version = "1.2.0"` → `ref` 必須是 `"v1.2.0"`
+- 不讀 plugin repo 的 default branch，避免後續變更造成誤判
+- 驗證 marketplace.json entry 的 `name` 欄位等於 tag commit 內 `plugin.json.name`
+
+### 6.5 品質檢查（警告，不擋 PR）
 
 - `description` 字數 < 10 → 警告太短
 - 沒有 `README.md` → 建議補上
@@ -242,25 +306,35 @@ CI 驗證 → Reviewer 審核 → 合併
 2. 建立 `marketplace` repo（index + CI + templates）
 3. 建立 `plugin-mp` repo（管理工具，自舉為第一個 plugin）
 4. 設定 `CODEOWNERS`（指定 marketplace PR 的必要審核者）
-5. 邀請團隊成員加入 org
+5. 設定 Org 權限：Member 可建立 repo（Settings → Member privileges → Repository creation → Private）
+6. 邀請團隊成員加入 org
 
 ### 7.2 成員 Onboarding（每人一次）
 
 1. 接受 GitHub Org 邀請
-2. 在 Claude Code 中執行 `/mp:setup` 或說「幫我設定團隊 marketplace」
+2. 首次安裝（使用 Claude Code 原生命令）：
+   ```
+   /plugin marketplace add cm-ailab-cc-plugins/marketplace
+   /plugin install mp@cm-ailab-cc-plugins
+   ```
+   或在團隊專案中 clone 後信任 `.claude/settings.json` 即自動取得。
+
+3. 安裝完成後可用 `/mp:setup` 驗證與修復環境：
 
 `/mp:setup` 自動化流程：
 ```
 ✓ 檢查 gh CLI... 已安裝
 ✓ 檢查 gh auth... 已登入
 ✓ 檢查 org 成員資格... 確認
-✓ 加入 marketplace... 完成
-✓ 安裝 mp plugin... 完成
+✓ 檢查 marketplace... 已加入
+✓ 檢查 mp plugin... 已安裝
 ✓ 設定 GITHUB_TOKEN...
   ⚠ 未設定 → 引導設定（背景自動更新需要）
 
-🎉 設定完成！
+🎉 環境正常！
 ```
+
+> **注意**：`/mp:setup` 是驗證/修復工具，不是首次安裝入口。首次安裝需使用原生 `/plugin` 命令或透過專案設定自動取得。
 
 ### 7.3 專案級自動配置（可選）
 
@@ -283,6 +357,8 @@ CI 驗證 → Reviewer 審核 → 合併
 ```
 
 效果：新成員 clone 專案 → 信任設定 → 自動取得 marketplace + mp 管理工具。
+
+> **安全規則**：`enabledPlugins` 只應自動啟用 `type` 為 `skill` 或 `agent` 的 plugin。`hook`、`mcp`、`mixed` 類型的 plugin 需使用者在 Claude Code 中手動確認後才啟用。
 
 ### 7.4 認證處理
 
@@ -307,18 +383,14 @@ CI 驗證 → Reviewer 審核 → 合併
   },
   "plugins": [
     {
-      "name": "plugin-mp",
+      "name": "mp",
       "source": {
         "source": "github",
-        "repo": "cm-ailab-cc-plugins/plugin-mp"
+        "repo": "cm-ailab-cc-plugins/plugin-mp",
+        "ref": "v1.0.0"
       },
       "description": "Marketplace 管理工具 — 發佈、搜尋、更新 plugin",
-      "version": "1.0.0",
-      "keywords": ["marketplace", "management"],
-      "author": {
-        "name": "Nero",
-        "email": "nero_xu@cmoney.com.tw"
-      }
+      "keywords": ["marketplace", "management"]
     }
   ]
 }
@@ -336,3 +408,7 @@ CI 驗證 → Reviewer 審核 → 合併
 | 管理工具實作 | 純 GitHub 流程 / Skill / MCP Server | Skill（mp plugin） | 零基礎設施、靜態檔案、自舉 |
 | 發佈審核 | 無審核 / 自助 / 人工 / 分級 | CI 自動驗證 + 人工審核 | 品質把關同時減輕人為負擔 |
 | 分類方式 | 職能 / 用途 / Tag / 無 | Keywords + 命名規範 | 不與跨職能價值衝突，靠語意搜尋 |
+| 版本鎖定 | ref(tag) / sha / 無 | ref 指向 git tag | 明確且人類可讀，不需 SHA 的精確度 |
+| 可執行 plugin 安全 | 無限制 / capability tier / 手動確認 | 按 type 限制自動啟用 | hook/mcp/mixed 需手動確認，降低供應鏈風險 |
+| CI 驗證範圍 | 含 runtime / 純靜態 | 純靜態結構檢查 | CI 環境無法可靠驗證 runtime 行為 |
+| Plugin 類型識別 | 自動偵測 / 明確欄位 | plugin.json 的 `type` 欄位 | CI 需要明確依據，避免猜測 |
