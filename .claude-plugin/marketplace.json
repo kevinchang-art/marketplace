@@ -1,0 +1,12 @@
+{
+  "name": "cm-ailab-cc-plugins",
+  "owner": {
+    "name": "CMoney AILab",
+    "email": "ailab@cmoney.com.tw"
+  },
+  "metadata": {
+    "description": "CMoney AILab 團隊共用的 Claude Code Plugin Marketplace",
+    "version": "1.0.0"
+  },
+  "plugins": []
+}
