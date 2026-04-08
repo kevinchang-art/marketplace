@@ -25,7 +25,7 @@ jobs:
           echo "✓ marketplace.json 是有效的 JSON"
 
           # 驗證必要欄位
-          for field in name owner metadata plugins; do
+          for field in name owner description plugins; do
             if ! jq -e ".$field" "$MARKETPLACE" >/dev/null 2>&1; then
               echo "::error::marketplace.json 缺少必要欄位: $field"
               exit 1
