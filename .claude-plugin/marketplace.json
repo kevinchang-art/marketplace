@@ -17,7 +17,27 @@
         "ref": "v1.0.0"
       },
       "description": "Team Marketplace 管理工具 — 發佈、搜尋、安裝、更新 plugin",
-      "keywords": ["marketplace", "management", "plugin", "team"]
+      "keywords": [
+        "marketplace",
+        "management",
+        "plugin",
+        "team"
+      ]
+    },
+    {
+      "name": "ops-jira",
+      "description": "Jira API 操作助手 — 查詢/建立/更新 issue、JQL 搜尋、狀態轉換、留言、Sprint 管理",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ops-jira",
+        "ref": "v1.0.0"
+      },
+      "keywords": [
+        "jira",
+        "project-management",
+        "api",
+        "issue-tracking"
+      ]
     }
   ]
 }
