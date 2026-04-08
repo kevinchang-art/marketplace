@@ -77,6 +77,8 @@ jobs:
           git show origin/${{ github.base_ref }}:.claude-plugin/marketplace.json > /tmp/base-marketplace.json 2>/dev/null || echo '{"plugins":[]}' > /tmp/base-marketplace.json
 
       - name: Diff and validate changed plugins
+        env:
+          PLUGIN_READ_TOKEN: ${{ secrets.PLUGIN_READ_TOKEN }}
         run: |
           MARKETPLACE=".claude-plugin/marketplace.json"
           BASE="/tmp/base-marketplace.json"
@@ -128,7 +130,8 @@ jobs:
             rm -rf "$PLUGIN_DIR"
 
             echo "Cloning $REPO@$REF..."
-            if ! git clone --depth=1 --branch="$REF" "https://github.com/$REPO.git" "$PLUGIN_DIR" 2>/dev/null; then
+            CLONE_URL="https://x-access-token:${PLUGIN_READ_TOKEN}@github.com/$REPO.git"
+            if ! git clone --depth=1 --branch="$REF" "$CLONE_URL" "$PLUGIN_DIR" 2>/dev/null; then
               echo "::error::無法 clone $REPO@$REF"
               VALIDATION_FAILED=1
               continue
