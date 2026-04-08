@@ -8,5 +8,16 @@
     "description": "CMoney AILab 團隊共用的 Claude Code Plugin Marketplace",
     "version": "1.0.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "mp",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-mp",
+        "ref": "v1.0.0"
+      },
+      "description": "Team Marketplace 管理工具 — 發佈、搜尋、安裝、更新 plugin",
+      "keywords": ["marketplace", "management", "plugin", "team"]
+    }
+  ]
 }
