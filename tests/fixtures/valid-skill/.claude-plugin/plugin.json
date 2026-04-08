@@ -1,0 +1,11 @@
+{
+  "name": "test-skill",
+  "version": "1.0.0",
+  "type": "skill",
+  "description": "A valid test skill plugin for validation testing",
+  "keywords": ["test", "validation"],
+  "author": {
+    "name": "Test User",
+    "github": "test-user"
+  }
+}

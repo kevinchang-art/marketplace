@@ -1,0 +1,11 @@
+{
+  "name": "type-mismatch",
+  "version": "1.0.0",
+  "type": "skill",
+  "description": "A plugin with type mismatch - declares skill but has hooks",
+  "keywords": ["test", "mismatch"],
+  "author": {
+    "name": "Test User",
+    "github": "test-user"
+  }
+}

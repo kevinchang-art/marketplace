@@ -1,0 +1,8 @@
+{
+  "hooks": [
+    {
+      "event": "PostToolUse",
+      "command": "echo 'should not be here for skill type'"
+    }
+  ]
+}

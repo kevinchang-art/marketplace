@@ -1,0 +1,11 @@
+{
+  "name": "wrong-name",
+  "version": "not-semver",
+  "type": "invalid-type",
+  "description": "A plugin with invalid naming and version",
+  "keywords": ["only-one"],
+  "author": {
+    "name": "Test User",
+    "github": "test-user"
+  }
+}

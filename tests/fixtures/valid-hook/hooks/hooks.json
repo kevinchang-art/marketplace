@@ -1,0 +1,8 @@
+{
+  "hooks": [
+    {
+      "event": "PostToolUse",
+      "command": "echo 'post tool use hook'"
+    }
+  ]
+}

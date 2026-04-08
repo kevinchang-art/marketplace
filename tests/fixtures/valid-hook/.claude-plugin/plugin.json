@@ -1,0 +1,11 @@
+{
+  "name": "test-hook",
+  "version": "2.1.0",
+  "type": "hook",
+  "description": "A valid test hook plugin for validation testing",
+  "keywords": ["test", "hook"],
+  "author": {
+    "name": "Test User",
+    "github": "test-user"
+  }
+}
