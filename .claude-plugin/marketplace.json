@@ -10,10 +10,10 @@
   },
   "plugins": [
     {
-      "name": "mp",
+      "name": "cm-ailab-mp",
       "source": {
         "source": "github",
-        "repo": "cm-ailab-cc-plugins/plugin-mp",
+        "repo": "cm-ailab-cc-plugins/plugin-cm-ailab-mp",
         "ref": "v1.0.0"
       },
       "description": "Team Marketplace 管理工具 — 發佈、搜尋、安裝、更新 plugin",
