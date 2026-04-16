@@ -72,6 +72,121 @@
         "api",
         "messaging"
       ]
+    },
+    {
+      "name": "ios-startup",
+      "description": "iOS 專案起手式產生器 — 含 27 個 Swift Extension 與 10 個 APIEngine 網路層模板檔案",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ios-startup",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ios-startup",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "ios",
+        "swift",
+        "startup",
+        "boilerplate",
+        "extension"
+      ]
+    },
+    {
+      "name": "mvvmci-ios",
+      "description": "iOS MVVM-C+I 架構規範 — Coordinator + MVVM + Interactor 分層原則與程式碼範本",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-mvvmci-ios",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-mvvmci-ios",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "ios",
+        "swift",
+        "mvvm",
+        "coordinator",
+        "architecture"
+      ]
+    },
+    {
+      "name": "ios-cmanalyticskit",
+      "description": "CMAnalyticsKit 埋點與 OneLink 使用指南 — 事件追蹤、計時事件、頁面瀏覽、深度連結處理",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ios-cmanalyticskit",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ios-cmanalyticskit",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "ios",
+        "swift",
+        "analytics",
+        "tracking",
+        "onelink"
+      ]
+    },
+    {
+      "name": "ios-audio",
+      "description": "iOS 錄音與播放功能指南 — AudioRecorderProvider + AudioPlayerProvider + EZAudio 整合",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ios-audio",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ios-audio",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "ios",
+        "swift",
+        "audio",
+        "recording",
+        "playback"
+      ]
+    },
+    {
+      "name": "ios-cmmemberkit-login",
+      "description": "CMMemberKit 登入整合 — 自動登入、手動登入、登出、JWT Token 管理，含 21 個模板檔案",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ios-cmmemberkit-login",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ios-cmmemberkit-login",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "ios",
+        "swift",
+        "login",
+        "authentication",
+        "cmmemberkit"
+      ]
     }
   ]
 }
