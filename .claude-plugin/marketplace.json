@@ -187,6 +187,30 @@
         "authentication",
         "cmmemberkit"
       ]
+    },
+    {
+      "name": "gen-short",
+      "description": "AI 短影片自動生成器 — 從網頁/GitHub repo/主題自動產出 60-90 秒 YouTube Shorts，含 AI 語音、AI 圖片、Remotion 動畫合成",
+      "version": "1.0.0",
+      "category": "content-creation",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-gen-short",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-gen-short",
+      "author": {
+        "name": "ailabcmoney",
+        "github": "ailabcmoney"
+      },
+      "keywords": [
+        "video",
+        "shorts",
+        "remotion",
+        "tts",
+        "imagen",
+        "automation"
+      ]
     }
   ]
 }
