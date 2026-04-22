@@ -215,12 +215,12 @@
     {
       "name": "anya-query",
       "description": "用中文查詢 Anya 使用者行為資料 — OAuth 授權後讓 Claude Code 在 CLI 直接生 Spark SQL 查 Anya，集中 audit log",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "category": "analytics",
       "source": {
         "source": "github",
         "repo": "cm-ailab-cc-plugins/plugin-anya-query",
-        "ref": "v0.1.0"
+        "ref": "v0.1.1"
       },
       "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-anya-query",
       "author": {
