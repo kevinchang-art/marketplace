@@ -237,21 +237,42 @@
       ]
     },
     {
-       "name": "ailab-cloudrun-deploy",
-       "description": "部署網頁或後端服務到 Cloud Run，適合非工程師使用，全自動引導",
+      "name": "ailab-cloudrun-deploy",
+      "description": "部署網頁或後端服務到 Cloud Run，適合非工程師使用，全自動引導",
       "type": "skill",
       "version": "1.0.0",
       "category": "development",
-       "source": {
+      "source": {
         "source": "github",
-         "repo": "cm-ailab-cc-plugins/plugin-ailab-cloudrun-deploy",
-         "ref": "v1.0.0"
-       },
+        "repo": "cm-ailab-cc-plugins/plugin-ailab-cloudrun-deploy",
+        "ref": "v1.0.0"
+      },
       "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ailab-cloudrun-deploy",
-       "keywords": [
+      "keywords": [
         "cloudrun",
         "deploy",
         "gcp"
+      ],
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      }
+    },
+    {
+      "name": "ailab-postgres-connect",
+      "description": "把 Cloud Run 服務連上公司 GKE 上的 PostgreSQL；dev 全自動建 DB 並注入 connection string，prod 走唯讀檢查並交接工程師處理。",
+      "type": "skill",
+      "source": {
+        "repo": "cm-ailab-cc-plugins/plugin-ailab-postgres-connect",
+        "ref": "v1.0.0"
+      },
+      "keywords": [
+        "postgres",
+        "database",
+        "gke",
+        "cloud-run",
+        "connection-string",
+        "db"
       ],
       "author": {
         "name": "kevinkevinkuo",
