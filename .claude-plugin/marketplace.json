@@ -303,6 +303,27 @@
         "upload",
         "gcp"
       ]
+    },
+    {
+      "name": "author-avatar-pack",
+      "description": "批次產生帶頭像的作者帳號（Nano Banana 生圖 + Drive 上傳 + Google Sheet）",
+      "type": "skill",
+      "source": {
+        "repo": "cm-ailab-cc-plugins/plugin-author-avatar-pack",
+        "ref": "v1.0.0"
+      },
+      "keywords": [
+        "avatar",
+        "nano-banana",
+        "author",
+        "drive",
+        "sheet",
+        "batch"
+      ],
+      "author": {
+        "name": "kevinchang-art",
+        "github": "kevinchang-art"
+      }
     }
   ]
 }
