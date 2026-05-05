@@ -282,6 +282,27 @@
         "name": "kevinkevinkuo",
         "github": "kevinkevinkuo"
       }
+    },
+    {
+      "name": "ailab-image-upload",
+      "description": "把產品接上 CMoney 圖片上傳服務，自動處理憑證與環境變數，適合非工程師使用，全自動引導",
+      "version": "1.0.0",
+      "category": "development",
+      "source": {
+        "source": "github",
+        "repo": "cm-ailab-cc-plugins/plugin-ailab-image-upload",
+        "ref": "v1.0.0"
+      },
+      "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ailab-image-upload",
+      "author": {
+        "name": "kevinkevinkuo",
+        "github": "kevinkevinkuo"
+      },
+      "keywords": [
+        "image",
+        "upload",
+        "gcp"
+      ]
     }
   ]
 }
