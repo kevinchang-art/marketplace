@@ -282,13 +282,13 @@
     },
     {
       "name": "cmoney-data",
-      "description": "Anya 使用者行為 + 全站 GA4 property + GSC（Search Console）+ Threads 帳號成效整合查詢工具，Bearer Token + audit log",
-      "version": "0.7.0",
+      "description": "Anya 使用者行為 + 電子發票／載具消費 + 全站 GA4 property + GSC（Search Console）+ Threads 帳號成效整合查詢工具，Bearer Token + audit log",
+      "version": "0.8.0",
       "category": "analytics",
       "source": {
         "source": "github",
         "repo": "cm-ailab-cc-plugins/plugin-cmoney-data",
-        "ref": "v0.7.0"
+        "ref": "v0.8.0"
       },
       "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-cmoney-data",
       "author": {
@@ -297,6 +297,9 @@
       },
       "keywords": [
         "anya",
+        "invoice",
+        "einvoice",
+        "carrier",
         "ga4",
         "gsc",
         "search-console",
