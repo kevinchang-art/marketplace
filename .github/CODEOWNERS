@@ -1,2 +1,7 @@
 # marketplace.json 變更需要指定審核者
 .claude-plugin/marketplace.json @cm-ailab-cc-plugins/reviewers
+
+# CI 腳本、workflow、CODEOWNERS 本身也需審核
+# 避免有人在 PR 中偷改驗證腳本/workflow 以竊取 secret 或繞過驗證
+/.github/            @cm-ailab-cc-plugins/reviewers
+/scripts/            @cm-ailab-cc-plugins/reviewers
