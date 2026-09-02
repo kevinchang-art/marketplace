@@ -32,12 +32,12 @@
     {
       "name": "ops-jira",
       "description": "Jira API 操作助手 — 查詢/建立/更新 issue、JQL 搜尋、狀態轉換、留言、Sprint 管理",
-      "version": "1.0.0",
+      "version": "1.0.2",
       "category": "productivity",
       "source": {
         "source": "github",
         "repo": "cm-ailab-cc-plugins/plugin-ops-jira",
-        "ref": "v1.0.0"
+        "ref": "v1.0.2"
       },
       "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-ops-jira",
       "author": {
