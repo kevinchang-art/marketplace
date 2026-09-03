@@ -282,13 +282,13 @@
     },
     {
       "name": "cmoney-data",
-      "description": "Anya 使用者行為 + 電子發票／載具消費 + 全站 GA4 property + GSC（Search Console）+ Threads 帳號成效整合查詢工具，Bearer Token + audit log",
-      "version": "0.8.0",
+      "description": "Anya 使用者行為 + 電子發票／載具消費 + 全站 GA4 property + GSC + Threads + 口袋基金 ELK（開戶漏斗/除錯）整合查詢工具，Bearer Token + audit log",
+      "version": "0.10.0",
       "category": "analytics",
       "source": {
         "source": "github",
         "repo": "cm-ailab-cc-plugins/plugin-cmoney-data",
-        "ref": "v0.8.0"
+        "ref": "v0.10.0"
       },
       "homepage": "https://github.com/cm-ailab-cc-plugins/plugin-cmoney-data",
       "author": {
@@ -306,7 +306,9 @@
         "readmo",
         "threads",
         "analytics",
-        "spark-sql"
+        "spark-sql",
+        "elk",
+        "cmoneyfund"
       ]
     },
     {
